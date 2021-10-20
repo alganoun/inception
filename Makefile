@@ -1,87 +1,64 @@
-NAME		=	Inception
+BLUE=\033[0;34m
+GREEN=\033[0;32m
+RED=\033[0;31m
+YELLOW=\033[0;33m
+NC=\033[0m
+B=`tput bold`
 
-HEAD 		=	./includes/*.h
+VOL = srcs_db_vol \
+      srcs_wp_vol
 
-INC			=	-I./includes/ -I/Users/$(USER)/.brew/opt/readline/include
+FC = ${GREEN}${B}Clean${NC}
+NOC = ${RED}${B}No    ${NC}
 
-CC			=	gcc
-
-FLAGS		=	-Wall -Wextra -Werror
-
-INFO		=	echo "Minishell is compiling..." &&
-
-LIBFT_PATH	=	./srcs/utils/Libft
-
-LIBFT		=	$(LIBFT_PATH)/libft.a
-
-SRCS		= ./srcs/Utils/common_utils.c \
-				./srcs/Utils/quote_utils.c \
-				./srcs/Utils/quote_utils2.c \
-				./srcs/Utils/common_utils2.c \
-				./srcs/Utils/parsing_utils.c \
-				./srcs/Utils/parsing_utils2.c \
-				./srcs/Utils/free_utils.c \
-				./srcs/Utils/display.c \
-				./srcs/Utils/struct_utils.c \
-				./srcs/Utils/write_utils.c \
-				./srcs/Utils/variable_utils.c \
-				./srcs/Utils/variable_utils2.c \
-				./srcs/Parsing/input_process.c \
-				./srcs/minishell.c \
-				./srcs/cmds.c \
-				./srcs/execution.c \
-				./srcs/piping.c \
-				./srcs/exit.c \
-				./srcs/exec_utils.c \
-				./srcs/redirection.c \
-				./srcs/Built_ins/pwd.c \
-				./srcs/Built_ins/env.c \
-				./srcs/Built_ins/export.c \
-				./srcs/Built_ins/unset.c \
-				./srcs/Built_ins/cd.c \
-				./srcs/Built_ins/echo.c \
-				./srcs/Built_ins/version.c \
-				./srcs/Parsing/parsing.c
-
-
-OBJ			=	$(SRCS:.c=.o)
-
-all: 	$(NAME)
-
-$(OBJ): $(HEAD)
-
-$(NAME): $(OBJ)
-	@echo "\033[0;35mLibft is compiling" \
-		&& sleep 1  && echo "...\033[0m"
-	@cd ./srcs/utils/libft && make
-	@echo "\033[0;32mLibft compilation was succesfull.\033[0m"
-	@cd ..
-	@echo "\033[0;35mMinishell is compiling" \
-		&& sleep 1  && echo "...\033[0m" \
-		&& make process
-
-process: $(OBJ)
-	@$(CC) -lreadline -L /Users/$(USER)/.brew/opt/readline/lib $(FLAGS) $(INC) -o $(NAME) $(OBJ) $(LIBFT)
-	@echo "\033[0;32mMinishell compilation was succesfull.\033[0m"
-
-%.o: %.c
-	@$(CC) $(FLAGS) $(INC) -o $@ -c $<
+all: help
 
 clean:
-	make -C $(LIBFT_PATH) $@
-	rm -f $(OBJ)
-	@echo "\033[0;31mMinishell object files deletion complete\033[0m"
+	clear
+	@echo "\n${BLUE}${B}Loading...${NC}\n"
+	@echo "${B}._______________________________."
+	@echo "${B}| Volumes | Containers | Images |"
+	@echo "${B}|_________|____________|________|"
+	@echo "${B}|         |            |        |"
+	@echo "${B}| ${NOC}  | ${FC}      | ${FC}  |"
+	@echo "${B}|         |            |        |"
+	@echo "${B}|_______________________________|\n"
+	@bash /home/${USER}/ft_inception/scripts/reset.sh 2>/dev/null
 
-test:
-	valgrind --tool=memcheck --leak-check=full --leak-resolution=high --show-reachable=no ./$(NAME)
-
-fclean: clean
-	@rm -f $(NAME)
-	@rm -f $(LIBFT)
-	@echo "\033[0;31mLibft objects files deletion complete\033[0m"
+fclean:
+	clear
+	@echo "${B}._______________________________."
+	@echo "${B}| Volumes | Containers | Images |"
+	@echo "${B}|_________|____________|________|"
+	@echo "${B}|         |            |        |"
+	@echo "${B}| ${FC}   | ${FC}      | ${FC}  |"
+	@echo "${B}|         |            |        |"
+	@echo "${B}|_______________________________|\n"
+	@echo "\n${BLUE}${B}Loading...${NC}\n"
+	@bash /home/${USER}/ft_inception/scripts/reset.sh 2>/dev/null
+	@docker volume prune -f 2>/dev/null
+	@bash /home/${USER}/ft_inception/scripts/rm_vol.sh
+	@sudo rm -rf /home/${USER}/data
+	@echo "\n"
 
 re:
-	@make clean
-	@make process
+	make fclean
+	make run 
 
-.PHONY: all clean fclean re
+help:
+	@clear
+	@echo "\n${B}DESCRIPTION\n"
+	@echo "${B}\tMakefile is a program to automate docker options using short commands.\n"
+	@echo "${B}1- make run:${GREEN}${B} Init all services, containers, images and volumes."
+	@echo "${NC}${B}2- make build:${GREEN}${B} Build a new container with old volumes."
+	@echo "${NC}${B}3- make clean:${GREEN}${B} Stops and removes the containers with their images."
+	@echo "${NC}${B}4- make fclean:${GREEN}${B} Performs the same task as clean command, and now removes volumes."
+	@echo "${NC}${B}5- make re:${GREEN}${B} Clean and execute all.\n"
+
+run:
+	@cd /home/${USER}/ ; mkdir data ; cd data ; mkdir db_vol wp_vol
+	@cd /home/${USER}/data ; chmod 777 db_vol wp_vol
+	@cd /home/${USER}/ft_inception/srcs ; docker-compose up -d
+
+build:
+	@cd /home/${USER}/ft_inception/srcs ; docker-compose up -d

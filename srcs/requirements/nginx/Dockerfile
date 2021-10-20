@@ -1,9 +1,29 @@
 FROM debian:buster
 
-MAINTAINER YanYan, yanyan@hexanyn.fr
+# Install all dependencys
+RUN	apk update && \
+	apk add nginx && \
+	apk add openssl
 
-RUN apt update;apt install -y nginx
+# Create nginx directory
+RUN	mkdir -p /run/nginx && \
+	chmod 755 /run/nginx
 
-CMD nginx -g 'daemon off;'
+# Create html directory
+COPY /requeriments/nginx/tools/index.html /var/www/html/
 
+# Conf ssl certificate
+RUN	chmod 700 /etc/ssl/private && \
+		openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj "/C=FR/ST=ARA/L=Lyon/O=42/CN=127.0.0.1" -keyout /etc/ssl/private/nginx_server.key -out /etc/ssl/certs/nginx_server.crt && \
+	openssl dhparam -out /etc/nginx/dhparam.pem 1000
+
+# Upload new conf
+COPY /requeriments/nginx/conf/nginx.conf /etc/nginx/
+COPY /requeriments/nginx/conf/default.conf /etc/nginx/http.d/
+
+# Ports availables
 EXPOSE 443
+
+# Start nginx services
+CMD ["nginx", "-g", "daemon off;"]
+

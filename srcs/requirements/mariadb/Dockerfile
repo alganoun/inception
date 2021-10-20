@@ -1,9 +1,20 @@
 FROM debian:buster
 
-MAINTAINER YanYan, yanyan@hexanyn.fr
+# Environment vars
+ARG	MYSQL_USER
+ARG	MYSQL_ROOT_PASSWORD
+ARG	MYSQL_PASSWORD
+ARG	MYSQL_DATABASE
 
-RUN apt update;apt install -y mariadb-server
+# Install dependencies
+RUN	apk update && apk upgrade && apk add --update --no-cache \
+	mariadb \
+	mariadb-client \
+	openrc
 
-CMD mysqld_safe && tail -f /dev/null
+COPY	tools/ /tools/
+RUN	sh /tools/init_db.sh
 
 EXPOSE 3306
+
+CMD	["./tools/run_mb.sh"]
