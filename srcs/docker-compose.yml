@@ -1,0 +1,39 @@
+version: '3'
+services:
+  nginx:
+    build: ./srcs/nginx
+    container_name: inception_nginx
+    volumes:
+    - ./srcs/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+    - ./srcs/nginx/conf/fastcgi_params:/etc/nginx/fastcgi_params
+    - ./srcs/nginx/conf.d:/etc/nginx/conf.d
+    - ./srcs/nginx/sites-enabled:/etc/nginx/sites-enabled
+    - ./srcs/nginx/logs:/var/log/nginx
+    - ./srcs/nginx/www:/var/www
+    ports:
+    - 6080:80
+    environment:
+    - TZ=Europe/Paris
+    restart: always
+
+  php:
+    build: ./srcs/php
+    container_name: inception_php
+    volumes:
+    - ./srcs/nginx/www:/var/www
+#    ports:
+#    - 9000
+    environment:
+    - TZ=Europe/Paris
+    restart: always
+
+  mariadb:
+    build: ./srcs/mariadb
+    container_name: inception_db
+    volumes:
+    - ./srcs/mariadb/data:/var/lib/mysql
+#    ports:
+#    - 9000
+    environment:
+    - TZ=Europe/Paris
+    restart: always
