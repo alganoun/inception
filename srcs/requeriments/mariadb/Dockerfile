@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM alpine:3.14
 
 # Environment vars
 ARG	MYSQL_USER

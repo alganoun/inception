@@ -43,7 +43,7 @@ fclean:
 
 re:
 	make fclean
-	make run 
+	make run
 
 help:
 	@clear
@@ -56,9 +56,9 @@ help:
 	@echo "${NC}${B}5- make re:${GREEN}${B} Clean and execute all.\n"
 
 run:
-	@cd /home/${USER}/ ; mkdir data ; cd data ; mkdir db_vol wp_vol
-	@cd /home/${USER}/data ; chmod 777 db_vol wp_vol
-	@cd /home/${USER}/ft_inception/srcs ; docker-compose up -d
+	@cd srcs ; mkdir data ; cd data ; mkdir db_vol wp_vol
+	@chmod 777 srcs/data/db_vol srcs/data/wp_vol
+	@cd srcs ; docker-compose up -d
 
 build:
-	@cd /home/${USER}/ft_inception/srcs ; docker-compose up -d
+	@cd srcs ; docker-compose up -d

@@ -1,65 +1,69 @@
 version: '3'
 
 services:
-  nginx:
-    build: ./requirements/nginx/
-    restart: always
-    ports:
-    - 443:443
-    networks:
-    - inception_network
-    hostname: nginx
-    volumes:
-    - wpdata:/var/www/html/wordpress
-
   mariadb:
     build:
-      context: ./requirements/mariadb/
+      context: ./requeriments/mariadb/
       args:
       - MYSQL_USER
       - MYSQL_ROOT_PASSWORD
       - MYSQL_PASSWORD
       - MYSQL_DATABASE
     volumes:
-    - dbdata:/var/lib/mysql
+    - db_vol:/var/lib/mysql
+    restart: always
     expose:
     - "3306"
     networks:
     - inception_network
-    hostname: mariadb
-    restart: always
+    hostname: maria
 
   wordpress:
     build:
-      context: ./requirements/wordpress/
+      context: ./requeriments/wordpress/
       args:
-      - DB_NAME
-      - DB_USER
-      - DB_PASSWORD
-    depends_on:
-    - mariadb
+          - DB_NAME
+          - DB_USER
+          - DB_PASSWORD
     volumes:
-    - wpdata:/var/www/html/wordpress
+    - wp_vol:/var/www/html/wordpress
     restart: always
     expose:
     - "9000"
     networks:
     - inception_network
     hostname: wordpress
+    depends_on:
+    - maria
 
+  nginx:
+    build:
+      context: .
+      dockerfile: ./requeriments/nginx/Dockerfile
+    restart: always
+    ports:
+    - "443:443"
+    networks:
+    - inception_network
+    hostname: nginx
+    depends_on:
+    - wordpress
+    volumes:
+    - wp_vol:/var/www/html/wordpress
 
 volumes:
-  wpdata:
+  wp_vol:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: /home/$USER/data/wp_data
-  dbdata:
+      device: ${PWD}/data/wp_vol
+  db_vol:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: /home/$USER/data/db_da
+      device: ${PWD}/data/db_vol
+
 networks:
   inception_network:
