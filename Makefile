@@ -56,8 +56,8 @@ help:
 	@echo "${NC}${B}5- make re:${GREEN}${B} Clean and execute all.\n"
 
 run:
-	@cd srcs ; mkdir data ; cd data ; mkdir db_vol wp_vol
-	@chmod 777 srcs/data/db_vol srcs/data/wp_vol
+	@cd srcs ; mkdir data ; cd data ; mkdir dbdata wpdata
+	@chmod 777 srcs/data/dbdata srcs/data/wpdata
 	@cd srcs ; docker-compose up -d
 
 build:
