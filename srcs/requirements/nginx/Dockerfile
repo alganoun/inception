@@ -25,5 +25,5 @@ COPY /requirements/nginx/conf/default.conf /etc/nginx/http.d/
 EXPOSE 443
 
 # Start nginx services
+RUN useradd --no-create-home nginx
 CMD ["nginx", "-g", "daemon off;"]
-

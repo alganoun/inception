@@ -15,16 +15,7 @@ all: help
 
 clean:
 	clear
-	@echo "\n${BLUE}${B}Loading...${NC}\n"
-	@echo "${B}._______________________________."
-	@echo "${B}| Volumes | Containers | Images |"
-	@echo "${B}|_________|____________|________|"
-	@echo "${B}|         |            |        |"
-	@echo "${B}| ${NOC}  | ${FC}      | ${FC}  |"
-	@echo "${B}|         |            |        |"
-	@echo "${B}|_______________________________|\n"
-	@bash /home/${USER}/ft_inception/scripts/reset.sh 2>/dev/null
-
+	cd srcs && ./../scripts/reset.sh
 fclean:
 	clear
 	@echo "${B}._______________________________."

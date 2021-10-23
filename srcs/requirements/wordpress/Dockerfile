@@ -8,17 +8,9 @@ ARG	DB_PASSWORD
 # New directory
 RUN	mkdir var/www
 RUN mkdir var/www/html
-RUN chmod 755 var
-RUN chmod 755 var/www
-RUN chmod 755 var/www/html
-
-# FTP
-COPY	tools/wp-config.php /var/www/html/wordpress/
-COPY	tools/init_env.sh /var/www/html/wordpress/
-
-# Exec var script
-RUN	chmod 777 /var/www/html/wordpress/init_env.sh
-RUN	./var/www/html/wordpress/init_env.sh
+RUN chmod 777 var
+RUN chmod 777 var/www
+RUN chmod 777 var/www/html
 
 # Install all dependencies
 RUN	apt-get update
@@ -28,11 +20,18 @@ RUN apt-get install -y php-dom && apt-get install -y php-mbstring
 RUN apt-get install -y php-imagick && apt-get install -y php-zip
 
 # Install and decompress wordpress
-ADD https://fr.wordpress.org/latest-fr_FR.tar.gz ./var/www/html
-RUN tar -xvf ./var/www/html/latest-fr_FR.tar.gz
-RUN rm -rf ./var/www/html/latest-fr_FR.tar.gz
+ADD https://fr.wordpress.org/latest-fr_FR.tar.gz ./var/www/html/
+RUN tar -xvf /var/www/html/latest-fr_FR.tar.gz -C /var/www/html/ 
+#RUN rm -rf /var/www/html/wordpress/latest-fr_FR.tar.gz
+RUN chmod 777 var/www/html/wordpress/*
 
-#RUN echo "listen = 9000" >> /etc/php/php-fpm.d/www.conf
+COPY	tools/wp-config.php /var/www/html/wordpress/
+COPY	tools/init_env.sh /var/www/html/wordpress/
+COPY	tools/config_and_start.sh /var/www/html/wordpress/
+
+RUN	chmod 777 /var/www/html/wordpress/init_env.sh
+RUN	./var/www/html/wordpress/init_env.sh
+RUN echo "listen = 9000" >> /etc/php/7.3/fpm/pool.d/www.conf
 
 # Listening
 EXPOSE 9000
@@ -41,6 +40,6 @@ EXPOSE 9000
 
 #CMD	rc-update add php-fpm7 default
 
-CMD "./tools/config_and_start.sh"
+CMD "/var/www/html/wordpress/config_and_start.sh"
 
 

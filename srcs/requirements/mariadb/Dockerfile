@@ -15,4 +15,4 @@ RUN	sh /tools/start.sh
 
 EXPOSE 3306
 
-CMD	["./tools/run.sh"]
+CMD	"./tools/run.sh"
