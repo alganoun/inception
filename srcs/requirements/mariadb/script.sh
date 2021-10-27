@@ -1,26 +1,24 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Dockerfile                                         :+:      :+:    :+:    #
+#    script.sh                                          :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: sohechai <sohechai@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/05/21 15:14:02 by sohechai          #+#    #+#              #
-#    Updated: 2021/06/06 00:04:59 by sohechai         ###   ########lyon.fr    #
+#    Created: 2021/06/02 15:08:40 by sohechai          #+#    #+#              #
+#    Updated: 2021/06/06 00:05:02 by sohechai         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-FROM debian:buster
+if [ ! -d "/tmp/ok" ]; then
+	mysql_install_db
+    service mysql start
+    mysql -e "CREATE USER '$DB_USER'@'localhost' identified by '$DB_PASS';" &&\
+	mysql -e "CREATE DATABASE wordpress;" &&\
+	mysql -e "GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_PASS';" &&\
+	mysql -e "FLUSH PRIVILEGES;"
+	mkdir /tmp/ok
 
-LABEL maintainer="<sohechai@student.42lyon.fr>"
+fi
 
-RUN apt-get update && apt-get upgrade -y && \
-	apt-get install mariadb-server mariadb-client -y && \
-	rm /etc/mysql/mariadb.conf.d/50-server.cnf
-
-COPY ./mariadb-server.cnf /etc/mysql/mariadb.conf.d/
-COPY ./script.sh ./
-
-EXPOSE 3306
-
-CMD mysqld && sh script.sh
+mysqld

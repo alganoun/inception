@@ -1,26 +1,18 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Dockerfile                                         :+:      :+:    :+:    #
+#    script.sh                                          :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: sohechai <sohechai@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/05/21 15:14:02 by sohechai          #+#    #+#              #
+#    Created: 2021/06/06 00:04:34 by sohechai          #+#    #+#              #
 #    Updated: 2021/06/06 00:04:59 by sohechai         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-FROM debian:buster
-
-LABEL maintainer="<sohechai@student.42lyon.fr>"
-
-RUN apt-get update && apt-get upgrade -y && \
-	apt-get install mariadb-server mariadb-client -y && \
-	rm /etc/mysql/mariadb.conf.d/50-server.cnf
-
-COPY ./mariadb-server.cnf /etc/mysql/mariadb.conf.d/
-COPY ./script.sh ./
-
-EXPOSE 3306
-
-CMD mysqld && sh script.sh
+mkdir /var/www/html/Adminer/
+cd /var/www/html/Adminer/
+wget https://github.com/vrana/adminer/releases/download/v4.7.3/adminer-4.7.3.php
+mv adminer-4.7.3.php ../adminer.php
+chmod 755 -R /var/www/html/adminer.php
+chown -R www-data:www-data /var/www/html/
