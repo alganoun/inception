@@ -20,13 +20,13 @@
 	
 	// ** MySQL settings - You can get this info from your web host ** //
 	/** The name of the database for WordPress */
-	define('DB_NAME', 'db_name');
+	define('DB_NAME', 'wordpress');
 	
 	/** MySQL database username */
-	define('DB_USER', 'db_user');
+	define('DB_USER', 'alganoun');
 	
 	/** MySQL database password */
-	define('DB_PASSWORD', 'db_password');
+	define('DB_PASSWORD', 'coucou');
 	
 	/** MySQL hostname */
 	define('DB_HOST', 'mariadb:3306');
@@ -46,15 +46,14 @@
 	 *
 	 * @since 2.6.0
 	 */
-	define('AUTH_KEY',         'A c1A*~]A1|]&z?axZ%(H(R)DMU7I=M#U$W= aZVR(%t|++i&-8awNQ89T6tt{qi');
-	define('SECURE_AUTH_KEY',  '#-> OLB4$+AfPW^u2]v1vVBV(3us|,OUOG[uZ ,7-%me5Uc#C0)IC}vz8b+Q[.rh');
-	define('LOGGED_IN_KEY',    'XwytjU!K+#d:xAW}W[f}(-)!8YJh6A@s(o+DUm6LO+0gxaVoj8X/@90+t>p<N3+p');
-	define('NONCE_KEY',        '<D^<h<>-G}!rF>[+*S?2OYf^?TRw]`4}egad(YMPC|sKLF)`|UdX10E81=y=O^B3');
-	define('AUTH_SALT',        '&V(=k[2<C51&AXrzW a-hMNFSXaDBE,!^7|nTB*IfbHx(ft1[|;Fr1tOA14^ce]D');
-	define('SECURE_AUTH_SALT', '0q!B%k)p2^c-{{]A|V.l~+k`{m(*)BGcW-=oij-i-t]&{+%vJ+KVfi_J_)ywU#<~');
-	define('LOGGED_IN_SALT',   'JX=g9ZqD|;8yZYvrhoK.Gf&Vhx^v7c!_]h{3)}b7Ey2-:94uBMM-YQtp;)XEfHnj');
-	define('NONCE_SALT',       'd`(OYSsPi@D{7pKd_9o)}Uxr]mY1BL+q4:-+JS;~:a>530=7sgiA512-JhG-7ua-');
-	
+	define('AUTH_KEY',         'r}7[|CvlthOx2n)j n@u:v.H5p?THZV+cN%+w4@d{EBe-AHr4+K--^MXKOt& efI');
+	define('SECURE_AUTH_KEY',  'MH}#}tMu-lb!e;DQedgBgfsc8i!m<|7||t]N-,614fS{4k}2q^iUw]PgX:+EJ+nu');
+	define('LOGGED_IN_KEY',    '!sl,ELn>cPa]X&*ZG.7/q{-|BIxPl=dOxv-wY*TFZ,M3-jw~y^L>u.sO{ZAQ+lt0');
+	define('NONCE_KEY',        'E|4SjxwwRjR)fxj|t?C|(;~q$G-x/U{*JP+CRbD`/s>sq-tDXrc__-+#^jzFi58h');
+	define('AUTH_SALT',        '8VoP`)U|(D6niz&I}e$Z)N6;Fv0O[q)[CoRofJ<mU@Me2{{):S,-pOM+!Yd^lupT');
+	define('SECURE_AUTH_SALT', ';A&Zi*_]6Uu4:La n=K[sax%O-SE?hcA]<HiS2Vp.G87v(:j}kY.BJ6w8%0z1u$)');
+	define('LOGGED_IN_SALT',   'UX%96KMvb0$%+.}Mf=i24dI7VZY(*Qm:d;~2_z@%GC.4jgt_)U^MSi})OP^Gn ^3');
+	define('NONCE_SALT',       '&4=Sums9:dZ-nY;o9S.|x+BcnQ-5B~+Y~9kEB:ped_7>c_t69wn(@xx!9~/?|T42');
 	/**#@-*/
 	
 	/**
@@ -77,7 +76,7 @@
 	 *
 	 * @link https://codex.wordpress.org/Debugging_in_WordPress
 	 */
-	define('WP_DEBUG', false);
+	define('WP_DEBUG', true);
 	
 	/* That's all, stop editing! Happy blogging. */
 	

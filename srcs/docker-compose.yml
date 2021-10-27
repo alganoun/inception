@@ -3,67 +3,67 @@ version: '3'
 services:
   mariadb:
     build:
-      context: ./requeriments/mariadb/
+      context: ./requirements/mariadb/
       args:
       - MYSQL_USER
       - MYSQL_ROOT_PASSWORD
       - MYSQL_PASSWORD
       - MYSQL_DATABASE
     volumes:
-    - db_vol:/var/lib/mysql
+    - dbdata:/var/lib/mysql
     restart: always
-    expose:
-    - "3306"
+    ports:
+    - 3306:3306
     networks:
     - inception_network
-    hostname: maria
+    hostname: mariadb
 
   wordpress:
     build:
-      context: ./requeriments/wordpress/
+      context: ./requirements/wordpress/
       args:
           - DB_NAME
           - DB_USER
           - DB_PASSWORD
     volumes:
-    - wp_vol:/var/www/html/wordpress
+    - wpdata:/var/www/html/wordpress
     restart: always
-    expose:
-    - "9000"
+    ports:
+    - 9000:9000
     networks:
     - inception_network
     hostname: wordpress
     depends_on:
-    - maria
+    - mariadb
 
   nginx:
     build:
       context: .
-      dockerfile: ./requeriments/nginx/Dockerfile
+      dockerfile: ./requirements/nginx/Dockerfile
     restart: always
     ports:
-    - "443:443"
+    - 443:443
     networks:
     - inception_network
     hostname: nginx
     depends_on:
     - wordpress
     volumes:
-    - wp_vol:/var/www/html/wordpress
+    - wpdata:/var/www/html/wordpress
 
 volumes:
-  wp_vol:
+  wpdata:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/data/wp_vol
-  db_vol:
+      device: ${PWD}/data/wpdata
+  dbdata:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/data/db_vol
+      device: ${PWD}/data/dbdata
 
 networks:
   inception_network:
