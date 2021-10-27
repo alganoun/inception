@@ -12,11 +12,11 @@ services:
     volumes:
     - dbdata:/var/lib/mysql
     restart: always
-    expose:
-    - "3306"
+    ports:
+    - 3306:3306
     networks:
     - inception_network
-    hostname: maria
+    hostname: mariadb
 
   wordpress:
     build:
@@ -28,8 +28,8 @@ services:
     volumes:
     - wpdata:/var/www/html/wordpress
     restart: always
-    expose:
-    - "9000"
+    ports:
+    - 9000:9000
     networks:
     - inception_network
     hostname: wordpress
@@ -42,7 +42,7 @@ services:
       dockerfile: ./requirements/nginx/Dockerfile
     restart: always
     ports:
-    - "443:443"
+    - 443:443
     networks:
     - inception_network
     hostname: nginx
