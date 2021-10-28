@@ -1,0 +1,4 @@
+CREATE DATABASE wordpress;
+CREATE USER 'alganoun'@'%' IDENTIFIED BY 'coucou';
+GRANT ALL PRIVILEGES ON *.* TO 'alganoun'@'%';
+FLUSH PRIVILEGES;
