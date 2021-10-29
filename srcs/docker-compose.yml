@@ -4,11 +4,7 @@ services:
   mariadb:
     build:
       context: ./requirements/mariadb/
-      args:
-      - MYSQL_USER
-      - MYSQL_ROOT_PASSWORD
-      - MYSQL_PASSWORD
-      - MYSQL_DATABASE
+    env_file: .env
     volumes:
     - dbdata:/var/lib/mysql
     restart: always
@@ -22,10 +18,7 @@ services:
   wordpress:
     build:
       context: ./requirements/wordpress/
-      args:
-          - DB_NAME
-          - DB_USER
-          - DB_PASSWORD
+    env_file: .env  
     volumes:
     - wpdata:/var/www/html/wordpress
     restart: always

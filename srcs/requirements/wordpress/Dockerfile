@@ -1,11 +1,5 @@
 FROM debian:buster
 
-ARG DB_NAME
-ARG DB_USER
-ARG DB_PASSWORD
-ARG ROOT_PASSWORD
-ARG USER_MAIL
-
 RUN mkdir -p var/www/html/wordpress
 RUN chmod 777 var
 RUN chmod 777 var/www
@@ -22,11 +16,7 @@ RUN apt-get install -y php-imagick && apt-get install -y php-zip
 EXPOSE 9000
 
 COPY tools/wp-config.php /var/www/html/wordpress
-COPY tools/init_env.sh ./
 COPY tools/start.sh ./
-
-RUN	chmod 777 ./init_env.sh
-RUN	./init_env.sh
 RUN echo "listen = 9000" >> /etc/php/7.3/fpm/pool.d/www.conf
 
 # Listening
