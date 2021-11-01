@@ -1,4 +1,4 @@
-all: run
+all: run build
 
 run:
 	@sudo echo "127.0.0.1 alganoun.42.fr" | cat - /etc/hosts > tmp && sudo mv tmp /etc/hosts
@@ -19,6 +19,7 @@ clean:
 
 fclean : clean
 	@sudo rm -rf /home/alganoun
+	@sed -i "s/127.0.0.1 alganoun.42.fr//" /etc/hosts
 
 re:
 	make fclean
