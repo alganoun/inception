@@ -75,7 +75,7 @@
 	 * visit the Codex.
 	 *
 	 * @link https://codex.wordpress.org/Debugging_in_WordPress
-	 */
+	 */	
 	define('WP_DEBUG', true);
 	
 	/* That's all, stop editing! Happy blogging. */

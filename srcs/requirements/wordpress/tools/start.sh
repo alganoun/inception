@@ -9,7 +9,7 @@ wp core download --locale=fr_FR --allow-root
 wp core install --url="alganoun.42.fr" --title="Inception" --admin_user="root" --admin_password=$ROOT_PASSWORD --admin_email="root@root.com" --allow-root
 wp user create $DB_USER $USER_MAIL --role=author --user_pass=$DB_PASSWORD  --allow-root
 
-chmod 777 /var/www
+chmod 777 /var/www/wordpress/
 
 #service php7.3-fpm start
 mkdir -p /run/php
